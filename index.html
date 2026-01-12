@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Puntazo — Service arrêté</title>
+
+  <style>
+    :root{
+      --bg: #D87659;          /* orange Puntazo (approx) */
+      --ink: #111827;         /* quasi noir */
+      --muted: #6B7280;       /* gris */
+      --card: #ffffff;
+      --line: rgba(17,24,39,.10);
+      --btn: #0EA5A4;         /* bouton turquoise */
+      --btn-ink: #ffffff;
+      --shadow: 0 18px 60px rgba(0,0,0,.18);
+      --radius: 18px;
+      --max: 1100px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background: #fff;
+      line-height: 1.35;
+    }
+    a{ color: inherit; text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+
+    /* Layout helpers */
+    .wrap{ max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+    .btn{
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: var(--btn);
+      color: var(--btn-ink);
+      font-weight: 700;
+      border: 0;
+      cursor: pointer;
+      box-shadow: 0 14px 30px rgba(14,165,164,.25);
+      transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 18px 34px rgba(14,165,164,.30); text-decoration: none; }
+    .btn.secondary{
+      background: rgba(255,255,255,.18);
+      color: #fff;
+      box-shadow: none;
+      border: 1px solid rgba(255,255,255,.32);
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.26);
+      color: #fff;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* Hero */
+    .hero{
+      background: var(--bg);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute; inset:-40px -60px auto auto;
+      width: 380px; height: 380px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.22), transparent 60%);
+      filter: blur(0px);
+      transform: rotate(12deg);
+      pointer-events: none;
+    }
+    header{
+      padding: 22px 0;
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .brand img{
+      width: 46px; height: 46px; object-fit: contain;
+    }
+    .brand .name{
+      font-weight: 900; letter-spacing: .04em;
+      font-size: 16px; text-transform: uppercase;
+      opacity: .95;
+    }
+
+    .hero-main{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 34px;
+      padding: 28px 0 56px;
+      align-items:center;
+    }
+
+    .h-title{
+      margin: 16px 0 10px;
+      font-size: clamp(30px, 3.4vw, 48px);
+      line-height: 1.02;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+    }
+    .h-sub{
+      margin: 0 0 18px;
+      font-size: clamp(16px, 1.6vw, 18px);
+      opacity: .92;
+      max-width: 56ch;
+    }
+
+    .h-box{
+      margin-top: 18px;
+      padding: 16px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.20);
+      max-width: 60ch;
+    }
+    .h-box strong{ color:#fff; }
+    .h-box p{ margin: 0; opacity: .95; }
+
+    .cta{
+      margin-top: 18px;
+      display:flex; flex-wrap:wrap; gap:12px;
+      align-items:center;
+    }
+    .note{
+      margin-top: 10px;
+      font-size: 13px;
+      opacity: .85;
+    }
+
+    .phone{
+      display:flex; justify-content:center; align-items:center;
+    }
+    .phone img{
+      width: min(360px, 92vw);
+      height: auto;
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      background: rgba(0,0,0,.2);
+    }
+
+    /* Content */
+    main{
+      padding: 54px 0 18px;
+      background: #fff;
+    }
+
+    .section-title{
+      font-size: clamp(26px, 3vw, 44px);
+      font-weight: 900;
+      letter-spacing: -.02em;
+      margin: 0 0 12px;
+    }
+    .section-lead{
+      margin: 0 0 26px;
+      color: var(--muted);
+      max-width: 78ch;
+      font-size: 16px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 18px;
+      box-shadow: 0 10px 30px rgba(17,24,39,.06);
+    }
+    .card h3{
+      margin: 0 0 10px;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: -.01em;
+    }
+    .card p, .card li{
+      color: #374151;
+      margin: 0;
+      font-size: 15px;
+    }
+    .card ul{
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+    .card li{ margin: 8px 0; }
+
+    /* FAQ */
+    .faq{
+      margin-top: 18px;
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+    }
+    details{
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 14px;
+      margin: 12px 0;
+      background: #fff;
+    }
+    summary{
+      cursor: pointer;
+      font-weight: 900;
+      list-style: none;
+      outline: none;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    details p{
+      margin: 10px 0 0;
+      color: #374151;
+      font-size: 15px;
+    }
+
+    /* Footer */
+    footer{
+      padding: 26px 0 40px;
+      border-top: 1px solid var(--line);
+      color: #6B7280;
+      font-size: 14px;
+    }
+    .footer-row{
+      display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center;
+    }
+    .footer-row a{ color: #6B7280; }
+
+    /* Responsive */
+    @media (max-width: 880px){
+      .hero-main{ grid-template-columns: 1fr; padding-bottom: 38px; }
+      .phone{ order: -1; }
+      .grid{ grid-template-columns: 1fr; }
+      .topbar{ flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="hero">
+    <div class="wrap">
+      <header>
+        <div class="topbar">
+          <div class="brand">
+            <img
+              src="https://framerusercontent.com/images/G8xmms8E9iYjW2mDSxVvUpixg.png?scale-down-to=256"
+              alt="Logo Puntazo"
+              loading="eager"
+            />
+            <div class="name">PUNTAZO</div>
+          </div>
+
+          <div class="pill" aria-label="Statut du service">
+            <span>●</span>
+            <span>Service arrêté</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="hero-main">
+        <div>
+          <div class="pill">Merci pour l’aventure ❤️</div>
+          <h1 class="h-title">Puntazo s’arrête</h1>
+          <p class="h-sub">
+            L’application Puntazo n’est plus disponible. Merci à toutes celles et ceux qui ont créé, rejoint et animé des matchs.
+          </p>
+
+          <div class="h-box">
+            <p>
+              <strong>Besoin d’une info ou d’une action liée à ton compte ?</strong><br />
+              Écris-nous à <a href="mailto:contact@puntazo.io"><strong>contact@puntazo.io</strong></a>.
+            </p>
+          </div>
+
+          <div class="cta">
+            <a class="btn" href="mailto:contact@puntazo.io?subject=Puntazo%20-%20Demande%20suite%20%C3%A0%20l%27arr%C3%AAt%20du%20service&body=Bonjour%2C%0A%0AJ%27aimerais%20...%0A%0AMerci%2C">
+              Contacter l’équipe
+            </a>
+            <a class="btn secondary" href="#infos">
+              Ce que ça implique
+            </a>
+          </div>
+
+          <div class="note">
+            Si tu arrives ici depuis l’app, c’est normal : cette page remplace l’ancienne landing.
+          </div>
+        </div>
+
+        <div class="phone" aria-hidden="true">
+          <img
+            src="https://framerusercontent.com/images/Ok0FwMURP4hC5vIZzyADtHKMAyY.png"
+            alt="Capture d’écran Puntazo"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main id="infos">
+    <div class="wrap">
+      <h2 class="section-title">Ce qui change</h2>
+      <p class="section-lead">
+        Voici les informations principales suite à l’arrêt du service. Si quelque chose te semble flou, écris-nous et on te répond.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Accès à l’application</h3>
+          <ul>
+            <li>La création et la consultation de matchs ne sont plus disponibles.</li>
+            <li>Les notifications liées aux matchs ne sont plus envoyées.</li>
+            <li>Les liens/CTA vers l’app peuvent rediriger ici.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Données & demandes</h3>
+          <ul>
+            <li>Pour toute demande (compte, données, question), contacte : <a href="mailto:contact@puntazo.io"><strong>contact@puntazo.io</strong></a>.</li>
+            <li>Précise ton email de compte Puntazo et ce dont tu as besoin, pour qu’on traite plus vite.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Merci ❤️</h3>
+          <p>
+            Puntazo a été construit pour enlever la galère des groupes WhatsApp et aider à trouver des joueurs au bon moment.
+            Merci d’avoir fait vivre la communauté.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Clubs / partenaires</h3>
+          <p>
+            Si tu es un club, un partenaire, ou si tu veux récupérer un élément (visuels, contenus, etc.),
+            écris-nous à <a href="mailto:contact@puntazo.io"><strong>contact@puntazo.io</strong></a>.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq" aria-label="FAQ arrêt du service">
+        <h2 class="section-title" style="margin-top: 8px;">FAQ</h2>
+
+        <details>
+          <summary>Pourquoi Puntazo s’arrête ?</summary>
+          <p>
+            On a pris la décision d’arrêter le service. Si tu veux le contexte complet, envoie un message à
+            <a href="mailto:contact@puntazo.io"><strong>contact@puntazo.io</strong></a>.
+          </p>
+        </details>
+
+        <details>
+          <summary>Je veux récupérer des informations liées à mon compte</summary>
+          <p>
+            Écris-nous avec l’email utilisé sur Puntazo et ta demande (ex : export, suppression, question).
+            On te répondra au plus vite.
+          </p>
+        </details>
+
+        <details>
+          <summary>Je suis un club / je veux contacter l’équipe</summary>
+          <p>
+            Contact : <a href="mailto:contact@puntazo.io"><strong>contact@puntazo.io</strong></a>.
+          </p>
+        </details>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-row">
+        <div>© <span id="y"></span> Puntazo</div>
+        <div>
+          <a href="https://drive.google.com/file/d/1K-Io4E7GG_7IIxlTO0TpkSdIcr7nJKzP/view" target="_blank" rel="noreferrer">
+            Mentions légales
+          </a>
+          &nbsp;·&nbsp;
+          <a href="mailto:contact@puntazo.io">contact@puntazo.io</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
